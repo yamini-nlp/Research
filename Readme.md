@@ -4,53 +4,89 @@ This repository contains my research work, including preprints and supporting ma
 
 ## Preprints
 
-### 1. A System-Level Framework for Sentiment-Aware Reflective Writing Systems: Modeling Temporal Emotional Patterns with Interpretability and Ethical Safety
+### A System-Level Framework for Sentiment-Aware Reflective Writing Systems
 
-**Status:** Preprint
-**Repository:** TechRxiv
-**DOI:** DOI: 10.36227/techrxiv.177274130.07417144/v1
+**Status:** Preprint · TechRxiv (IEEE) · DOI: 10.36227/techrxiv.177274130.07417144/v1
 
-**Abstract**
-: Sentiment analysis has become a cornerstone of affective computing applications, enabling systems to detect emotional valence in user-generated text. However, when deployed in reflective writing and coaching contexts, sentiment-based systems face a fundamental limitation: sentiment polarity does not reliably indicate user intent, therapeutic need, or appropriate system response. This paper formally analyzes the gap between sentiment detection and intent interpretation in emotion-aware interactive systems. We define sentiment as a function S : X → Y s mapping text to polarity labels, and intent as a context-dependent function I : X × C × G × H → A incorporating conversational context, user goals, and interaction history. Through system-level observations from early-stage prototype deployment, we demonstrate that S(x) alone is statistically insufficient for determining appropriate system actions. We present a multi-layer intent modeling framework that augments sentiment detection with pragmatic reasoning, temporal pattern recognition, and goal-aware interpretation. Our central contribution is a utility-theoretic framing of emotional response selection that explicitly models asymmetric costs (false intervention vs. missed support), derives optimal decision thresholds, and incorporates ethical constraints through action-space restriction.
+#### Problem
+Sentiment polarity does not reliably indicate user intent, therapeutic need, or correct system response. A journal entry like *"I finally finished everything I needed to do today"* scores positive — but in longitudinal context, it often reflects exhaustion as achievement. Systems that act on S(x) alone get this wrong in predictable, provable ways.
 
-**Links**
+#### Contribution
+- Formal definitions: sentiment `S: X → {-1,0,+1}` vs. intent `I: X×C×G×H → A`,where C = context, G = user goals, H = temporal history.
+- Proof sketch that S(x) is not a sufficient statistic for intent-aware action selection.
+- **Utility-theoretic response selection**: models asymmetric costs of false intervention vs. missed support (C_fp vs. C_fn) and derives 
+  optimal decision thresholds — with a worked numeric example (three candidate system responses, expected utility computed under 
+  uncertainty over the user's true state z).
+- Ethical constraints formalized as action-space restriction, not policy prose.
+- 5-layer architecture: Sentiment Detection (L1) → Pragmatic Analysis (L2) → Temporal Pattern Recognition (L3) → Goal-Awareness (L4) → 
+  Utility-Based Action Selection (L5).
+- Grounded in early-stage prototype deployment observations (reflective journaling context), not synthetic scenarios.
 
-* TechRxiv: https://www.techrxiv.org/users/1032506/articles/1392661-a-system-level-framework-for-sentiment-aware-reflective-writing-systems-modeling-temporal-emotional-patterns-with-interpretability-and-ethical-safety
-* Google Scholar: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=zYTRPeIAAAAJ&authuser=1&citation_for_view=zYTRPeIAAAAJ:eO3_k5sD8BwC
-* ORCID: https://orcid.org/0009-0004-9662-0219
+#### Why this matters
+Most affective-computing work stops at detection. This paper treats detection as input to a decision problem with real costs on both sides of getting it wrong — and shows how to compute the threshold instead of hand-tuning it.
+
+#### Links
+- Paper: [TechRxiv DOI](https://www.techrxiv.org/doi/full/10.36227/techrxiv.177274130.07417144/v1)
+- Applied system: [MindNook](https://mindnook-hcj.vercel.app/)
+- Repo: [github](https://github.com/yamini-nlp/MindNook-HCJ)
+
+#### Citation
+G. S. Y. Devi, "A System-Level Framework for Sentiment-Aware Reflective Writing Systems: Modeling Temporal Emotional Patterns with Interpretability and Ethical Safety," TechRxiv, 2026. DOI: 10.36227/techrxiv.177274130.07417144/v1
 
 ---
 
-### 2. Beyond Surface Affect: Why Sentiment Detection Alone is Insufficient for Intent Interpretation in Human-AI Communication
+### Beyond Surface Affect: Why Sentiment Detection Alone Is Insufficient for Intent Interpretation in Human–AI Communication
 
-**Status:** Preprint
-**Repository:** TechRxiv
-**DOI:** 10.36227/techrxiv.177274129.99249714/v1
+**Status:** Preprint · TechRxiv (IEEE) · DOI: 10.36227/techrxiv.177274129.99249714/v1
 
-**Abstract**
-: Sentiment detection-the automated classification of affective polarity in natural language text-has achieved strong empirical performance across standard benchmarks and is widely deployed in conversational AI systems. However, in interactive Human-AI communication contexts such as interview coaching assistants, reflective writing platforms, and mental health dialogue agents, sentiment polarity alone is demonstrably insufficient for interpreting user intent. This paper formalizes the distinction between sentiment detection and intent interpretation using mathematical notation. We define a sentiment classifier S(x) operating over surface text and contrast it with a contextualized intent function I(x, C, G, H), where C denotes dialogue context, G encodes user goals, and H represents interaction history. We prove formally that S(x) does not imply I(x, C, G, H) in the general case, and identify four canonical failure modes of sentiment-only systems. We present system-level case observations from MindNook, a sentiment-aware reflective diary platform, to ground these theoretical distinctions empirically. We propose a Multi-Layer Intent Modeling (MLIM) framework integrating affective, pragmatic, goal-theoretic, and contextual components, and conclude with an open research agenda addressing context management, multi-modal grounding, and privacy-preserving personalization.
+#### Problem
+Affect-aware ≠ intent-aware. A user writing *"I think I understand now"* reads as neutral-to-positive to any sentiment classifier — but whether it's a genuine confirmation or a face-saving deflection depends entirely on context, goals, and interaction history that S(x) never sees.
 
-**Links**
+#### Contribution
+- **Proposition 1**: proves formally that S(x) ⇏ I(x, C, G, H) — two identical utterances with different (C, G, H) can carry opposite 
+  intent while sentiment stays constant. Includes a full proof sketch with a worked counterexample.
+- Information-theoretic framing: MI(î; S(x)) < MI(î; I(x,C,G,H)) whenever context carries intent-relevant information that sentiment 
+  doesn't capture.
+- **Four canonical failure modes** of sentiment-only systems: affective masking, pragmatic inversion (sarcasm), temporal goal drift, and 
+  communicative role ambiguity.
+- Case observations from **MindNook** (sentiment-aware reflective diary, deployed) — documents where sentiment-first architecture misread 
+  positive reframing and exhaustion as stable well-being.
+- **MLIM (Multi-Layer Intent Modeling) framework**: 4 layers — Affective Signal (ASL) → Pragmatic Encoding (PEL) → Goal-State Tracking 
+  (GSTL, POMDP-style belief update) → Intent Fusion (IFL, entropy-based confidence, triggers clarification requests under high uncertainty 
+  instead of committing to a low-confidence intent read).
 
-* TechRxiv: https://www.techrxiv.org/users/1032506/articles/1392660-beyond-surface-affect-why-sentiment-detection-alone-is-insufficient-for-intent-interpretation-in-human-ai-communication?commit=2b8a4238952ef4fb099d4a804df9d99aab24c199
-* Google Scholar: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=zYTRPeIAAAAJ&authuser=1&citation_for_view=zYTRPeIAAAAJ:DkZNVXde3BIC
-* ORCID: https://orcid.org/0009-0004-9662-0219
+#### Why this matters
+This is the theory paper that the applied work (MindNook, PrepSphere's interview coaching, PrepVision) is built to validate. It's also the one with the strongest formal contribution — the insufficiency proof — so lead with this paper, not the others, when a reader has time for exactly one.
+
+#### Links
+- Paper: [TechRxiv DOI](https://www.techrxiv.org/doi/full/10.36227/techrxiv.177274129.99249714/v1)
+- Companion paper: *A System-Level Framework for Sentiment-Aware Reflective Writing Systems* (utility-theoretic extension of this framework)
+
+#### Citation
+G. S. Y. Devi, "Beyond Surface Affect: Why Sentiment Detection Alone is Insufficient for Intent Interpretation in Human–AI Communication," TechRxiv,2026. DOI: 10.36227/techrxiv.177274129.99249714/v1
   
 ---
 
-### 3. Comparative Sentiment Analysis of YouTube Transcripts and User Comments: Failure Modes and Interpretability in Public Discourse
+### Comparative Sentiment Analysis of YouTube Transcripts and User Comments
 
-**Status:** Preprint
-**Repository:** SSRN
-**DOI:** 10.2139/ssrn.6344859
+**Status:** Preprint · SSRN · DOI: 10.2139/ssrn.6344859
 
-**Abstract:**
-: Sentiment analysis of user-generated content on video-sharing platforms presents a unique methodological challenge: the sentiment expressed in a video's spoken content (transcript) does not necessarily align with the sentiment expressed by its audience in the comments section. This paper presents a dual-model sentiment analysis system combining LSTM neural networks for comment classification with VADER lexicon-based analysis for transcript sentiment. Through deployment of a full-stack web application (Python/Flask backend, MySQL storage, interactive visualization), we demonstrate the feasibility of comparative transcript-comment sentiment analysis. A pilot study analyzing 12 YouTube videos across five content domains reveals divergence patterns: product reviews show transcripts more positive than comments (reflecting promotional content versus user experience), political commentary shows the opposite (audience supporting critical creator stance), while educational content shows minimal divergence. We document domain-specific failure modes including ASR transcription noise affecting VADER analysis and sarcasm degrading LSTM accuracy. The system architecture, dual-model rationale, and pilot findings provide a foundation for larger-scale analysis of creator-audience sentiment relationships. 
+#### Problem
+Transcript sentiment (what a creator says) and comment sentiment (how the audience reacts) are routinely treated as one signal. They aren't.
 
-**Links**
+#### Contribution
+- Dual-model pipeline: VADER (lexicon-based) for ASR-derived transcripts, LSTM(supervised) for comments — deliberately different models for 
+  text with different linguistic properties (spoken/disfluent vs. informal/sarcastic).
+- Pilot study, 12 YouTube videos across 5 domains (political, educational, tech, entertainment, product review).
+- **Finding: comments are systematically more positive than transcripts across every video sampled** — mean divergence δ̄ = −48.75 
+  percentage points(population SD = 16.1), n=12. No domain reversed this direction in the pilot sample.
+- Failure-mode taxonomy: ASR transcription noise corrupting VADER scoring, sarcasm degrading LSTM accuracy on comments.
+- Full-stack deployed system: Flask backend, MySQL storage, YouTube Data API v3+ youtube-transcript-api ingestion, interactive 
+  visualization.
 
-* SSRN: https://ssrn.com/abstract=6344859
-* DOI: http://dx.doi.org/10.2139/ssrn.6344859
-* GitHub: https://github.com/yamireddy04/youtube-sentiment-analysis-ai
-* Google Scholar: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=zYTRPeIAAAAJ&authuser=1&citation_for_view=zYTRPeIAAAAJ:rTD5ala9j4wC
-* ORCID: https://orcid.org/0009-0004-9662-0219
+#### Links
+- Paper: [SSRN DOI](http://dx.doi.org/10.2139/ssrn.6344859)
+- Repo: [github](https://github.com/yamini-nlp/youtube-sentiment-analysis-ai)
+
+#### Citation
+G. S. Y. Devi, "Comparative Sentiment Analysis of YouTube Transcripts and User Comments: Failure Modes and Interpretability in Public Discourse," SSRN, 2026. DOI: 10.2139/ssrn.6344859
