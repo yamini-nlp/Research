@@ -2,8 +2,6 @@
 
 This repository contains my research work, including preprints and supporting materials.
 
-## Preprints
-
 ### A System-Level Framework for Sentiment-Aware Reflective Writing Systems
 
 **Status:** Preprint · TechRxiv (IEEE) · DOI: 10.36227/techrxiv.177274130.07417144/v1
