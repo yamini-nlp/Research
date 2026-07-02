@@ -1,6 +1,7 @@
 # Research
 
-This repository contains my research work, including preprints and supporting materials.
+##### This repository contains my research work, including preprints and supporting materials.
+---
 
 ### A System-Level Framework for Sentiment-Aware Reflective Writing Systems
 
